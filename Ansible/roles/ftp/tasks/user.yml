@@ -1,0 +1,12 @@
+---
+
+- name: Create a ftp users
+  become: true
+  user:
+    name: "{{ VM6_FTP_USER }}"
+    password: "{{ VM6_FTP_PASS | password_hash('sha512') }}"
+    state: present
+    shell: /bin/bash
+    system: no
+    createhome: no
+    home: "/home/ftp/{{ VM6_FTP_USER }}"

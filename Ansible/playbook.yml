@@ -1,0 +1,48 @@
+---
+- name: vm3
+  hosts: webserver2
+  become: true
+  vars:
+    VM3_USERNAME1: "{{ lookup('env', 'VM3_USERNAME1') }}"
+    VM3_PASSWORD1: "{{ lookup('env', 'VM3_PASSWORD1') }}"
+  roles:
+    - {role: create-usersVM3, tags: create-usersVM3}
+
+- name: vm6
+  hosts: serverftp
+  become: true
+  vars:
+    VM6_FTP_USER: "{{ lookup('env', 'VM6_FTP_USER') }}"
+    VM6_FTP_PASS: "{{ lookup('env', 'VM6_FTP_PASS') }}"
+  roles:
+    - {role: ftp, tags: ftp}
+    - {role: create-usersVM6, tags: create-usersVM6}
+
+- name: vm9
+  hosts: wordpress
+  become: true
+  vars:
+    IP_VM9_1: "{{ lookup('env', 'IP_VM9_1') }}"
+  roles:
+    - {role: server, tags: server}
+    - {role: php, tags: php}
+    - {role: mysql, tags: mysql}
+    - {role: wordpress, tags: wordpress}
+    - {role: create-usersVM9, tags: create-usersVM9}
+
+- name: vm10
+  hosts: serverdns
+  become: true
+  roles:
+    - {role: apt-get, tags: apt-get}
+    - {role: bind, tags: bind}
+    - {role: create-usersVM10, tags: create-usersVM10}
+
+- name: vm10update
+  hosts: serverdns
+  become: true
+  tasks:
+    - name: update-only
+      import_role:
+        name: apt-get
+        tasks_from: update.yml

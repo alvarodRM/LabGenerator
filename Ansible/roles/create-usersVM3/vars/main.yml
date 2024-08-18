@@ -1,0 +1,11 @@
+---
+
+users:
+- username: "{{ VM3_USERNAME1 }}"
+  uid: 1220
+  nombre: Administrador Pruebas
+  contrasena: "{{ VM3_PASSWORD1 }}"
+- username: UsuarioPruebas
+  uid: 1221
+  nombre: Usuario Pruebas
+  contrasena: USeRPruEBas00
